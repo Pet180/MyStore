@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="cn.tedu.store.mapper.UserMapper">
+	<!-- 插入用户信息 -->
+	<!-- void insert(User user); -->
+	<insert id="insert" parameterType="cn.tedu.store.bean.User">
+		INSERT 	 INTO t_user VALUES(#{id},#{username},#{password},#{email},
+			#{phone},#{image},#{gender},#{createdUser},#{createdTime},
+			#{modifiedUser},#{modifiedTime})
+	</insert>
+	
+	<!-- 根据用户名查询 -->
+	<!-- User selectByUsername(String username); -->
+	<select id="selectByUsername" resultType="cn.tedu.store.bean.User">
+		SELECT id,username,password,email,phone,image,gender,
+			created_user as createdUser,created_time as createdTime,
+			modified_user as modifiedUser,modified_time as modifiedTime
+			FROM t_user WHERE username=#{username}
+	</select>
+	<!-- 透过邮箱查询 -->
+	<!-- Integer selectByEmail(String email); -->
+	<select id="selectByEmail" resultType="java.lang.Integer">
+		SELECT COUNT(email) FROM t_user WHERE email=#{email}
+	</select>
+	<!--  透过电话查询 -->
+	<!-- Integer selectByPhone(String phone); -->
+	<select id="selectByPhone" resultType="java.lang.Integer">
+		SELECT COUNT(phone) FROM t_user WHERE phone=#{phone}
+	</select>
+	<!-- 修改用户信息 -->
+	<!-- void update(User user); -->
+	<update id="update" parameterType="cn.tedu.store.bean.User">
+		UPDATE t_user
+			SET
+				<if test="password!=null">
+					password=#{password},
+				</if>
+				<if test="username!=null">
+					username=#{username},
+				</if>
+				<if test="gender!=null">
+					gender=#{gender},
+				</if>
+				<if test="phone!=null">
+					phone=#{phone},
+				</if>
+				<if test="email!=null">
+					email=#{email},
+				</if>
+				modified_time=#{modifiedTime},
+				modified_user=#{modifiedUser}
+			WHERE id=#{id}	
+	</update>
+	
+	<!-- 透过id找用户信息 -->
+	<!-- User selectById(Integer id); -->
+	<select id="selectById" resultType="cn.tedu.store.bean.User">
+		SELECT 
+			id,username,password,email,phone,image,gender,
+			created_user as createdUser,created_time as createdTime,
+			modified_user as modifiedUser,modified_time as modifiedTime
+		FROM
+			t_user
+		WHERE
+			id=#{id}
+	</select>
+	
+	<!-- 保存上傳頭像的數據 -->
+	<!-- void updateImageById(@Param("image")String image,@Param("id")Integer id); -->
+	<update id="updateImageById">
+	UPDATE 
+	  t_user
+	SET 
+	  image = #{image}
+	WHERE
+	  id = #{id}  
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

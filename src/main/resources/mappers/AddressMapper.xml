@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="cn.tedu.store.mapper.AddressMapper">
+	<!-- 插入用户地址 -->
+	<!-- 	void insert(Address address); -->
+	<insert id="insert" parameterType="cn.tedu.store.bean.Address">
+		INSERT INTO t_address(
+						uid,
+						recv_name,
+						recv_province,
+						recv_city,
+						recv_area,
+						recv_district,
+						recv_address,
+						recv_phone ,
+						recv_tel,
+						recv_zip,
+						recv_tag,
+						is_default,
+						created_user,
+						created_time,
+						modified_user,
+						modified_time
+				)values(
+						#{uid},#{recvName},
+						#{recvProvince},#{recvCity},
+						#{recvArea},#{recvDistrict},
+						#{recvAddress},#{recvPhone},
+						#{recvTel},#{recvZip},#{recvTag},
+						#{isDefault},#{createdUser},#{createdTime},
+						#{modifiedUser},#{modifiedTime}
+				)
+	</insert>
+	<!-- 透过uid找地址 -->
+	<!-- List<Address> selectByUid(Integer uid); -->
+	<select id="selectByUid" resultType="cn.tedu.store.bean.Address">
+		select
+			id,uid,recv_name as recvName,
+			recv_province as recvProvince,
+			recv_city as recvCity,
+			recv_area as recvArea,
+			recv_district as recvDistrict,
+			recv_address as recvAddress,
+			recv_phone as recvPhone,
+			recv_tel as recvTel,
+			recv_zip as recvZip,
+			recv_tag as recvTag,
+			is_default as isDefault,
+			created_user as createdUser,
+			created_time as createdTime,
+			modified_user as modifiedUser,
+			modified_time as modieidTime
+		from 
+			t_address
+		where 
+			uid=#{uid}
+	</select>
+	<!-- 将当前登录用户的所有地址设置is_default=0 -->
+	<!-- Integer setCancel(Integer uid); -->
+	<update id="setCancel">
+		UPDATE
+		  t_address
+		SET
+		  is_default=0
+		WHERE
+		  uid=#{uid}
+	</update>
+	<!-- 将被选中的地址设置is_default=1 -->
+	<!-- Integer setDefault(Integer id); -->
+	<update id="setDefault">
+		UPDATE
+		  t_address
+		SET
+		  is_default=1
+		WHERE
+		  id=#{id}
+	</update>
+	<!-- 透过id找到对应的收货人住址 -->
+	<!-- Address selectAddressById(Integer id); -->
+	<select id="selectAddressById" resultType="cn.tedu.store.bean.Address">
+		SELECT
+			id,uid,
+			recv_name as recvName ,
+			recv_province as recvProvince,
+			recv_city as recvCity,
+			recv_area as recvArea,
+			recv_district as recvDistrict,
+			recv_address as recvAddress,
+			recv_phone as recvPhone,
+			recv_tel as recvTel,
+			recv_zip as recvZip,
+			recv_tag as recvTag,
+			created_user as createdUser,
+			created_time as createdTime,
+			modified_user as modifiedUser,
+			modified_time as modifiedTime,
+			is_default as isDefault
+		FROM
+		    t_address
+		WHERE
+		    id=#{id}
+	</select>
+	<!-- 透过id修改收货地址 -->
+	<!-- 	void updateById(Integer id);-->
+	<update id="updateById" parameterType="cn.tedu.store.bean.Address">
+		UPDATE
+			t_address
+		SET
+			recv_name = #{recvName},
+			recv_province = #{recvProvince},
+			recv_city = #{recvCity},
+			recv_area = #{recvArea},
+			recv_district = #{recvDistrict},
+			recv_address = #{recvAddress},
+			recv_phone = #{recvPhone},
+			recv_tel = #{recvTel},
+			recv_zip = #{recvZip},
+			recv_tag = #{recvTag}
+		WHERE
+			id=#{id}
+	</update>
+	
+	<!-- 透过id删除收件地址 -->
+	<!-- void deleteAddress(Integer id); -->
+	<delete id="deleteAddress">
+		DELETE FROM
+			t_address
+		WHERE
+			id=#{id}
+	</delete>
+	
+</mapper>
